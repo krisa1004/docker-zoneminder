@@ -7,7 +7,7 @@ ENV TZ America/New_York
 
 # Update the container
 # Installation of nesesary package/software for this containers...
-RUN echo "deb http://ppa.launchpad.net/iconnor/zoneminder-1.32/ubuntu `cat /etc/container_environment/DISTRIB_CODENAME` main" >> /etc/apt/sources.list  \
+RUN echo "deb http://ppa.launchpad.net/iconnor/zoneminder-master/ubuntu `cat /etc/container_environment/DISTRIB_CODENAME` main" >> /etc/apt/sources.list  \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 776FFB04 \
     && echo $TZ > /etc/timezone && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends \
                                         libvlc-dev  \
@@ -58,12 +58,13 @@ RUN chmod +x /sbin/pre-conf ; sync \
 COPY backup.sh /sbin/backup
 RUN chmod +x /sbin/backup
 
+COPY cambozola-latest.tar.gz /usr/src/
+
 RUN cd /usr/src \
-    && wget http://www.andywilcock.com/code/cambozola/cambozola-latest.tar.gz \
     && tar -xzvf /usr/src/cambozola-latest.tar.gz \
-    && mv cambozola-0.936/dist/cambozola.jar /usr/share/zoneminder/www  \
+    && mv cambozola-0.93/dist/cambozola.jar /usr/share/zoneminder/www  \
     && rm /usr/src/cambozola-latest.tar.gz \
-    && rm -R /usr/src/cambozola-0.936
+    && rm -R /usr/src/cambozola-0.93
 
 # add stuff or zmeventnotification.pl
 RUN cd /usr/bin/ \

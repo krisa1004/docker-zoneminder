@@ -79,6 +79,11 @@ RUN perl -MCPAN -e "install Net::WebSocket::Server"
 RUN perl -MCPAN -e "install LWP::Protocol::https"
 RUN perl -MCPAN -e "install Net::MQTT::Simple"
 
+# Add redirect to /zm when accessing top level /
+RUN a2ensite 000-default.conf \
+    && mkdir /var/www/html \
+    && echo '<meta http-equiv="Refresh" content="0; url=/zm" />' >/var/www/html/index.html
+
 VOLUME /var/backups /var/cache/zoneminder /config
 # to allow access from outside of the container  to the container service
 # at that ports need to allow access from firewall if need to access it outside of the server. 
